@@ -185,6 +185,27 @@ class Logger {
     const messages = message ? [line, `||\t${message}`, line] : [line];
     this.raw(messages.join("\n"));
   }
+
+  /**
+   * loading: show loader with message
+   *
+   * @param message?
+   */
+  loading(message: string = "") {
+    const events = ["-", "\\", "|", "/", "-", "\\", "|", "/"];
+    let index = 0;
+    const id = setInterval(() => {
+      Deno.stdout.write(
+        new TextEncoder().encode(`${message}${events[index]}\r`)
+      );
+      index += 1;
+      if (index === events.length) index = 0;
+    }, 500);
+    return () => {
+      printf("\n");
+      clearInterval(id);
+    };
+  }
 }
 
 export { Logger, LogLevel, LoggerOptions };
@@ -246,3 +267,17 @@ inverse("This is inverse");
 
 logError("This is Error.");
  */
+
+/**
+ * Example: Loading message
+ *
+ */
+
+/*
+const delay = (ms = 5000) => new Promise((r) => setTimeout(r, ms));
+
+const logger = new Logger();
+const cancel = logger.loading("Loading..."); // start loader
+
+delay().then(cancel);
+*/

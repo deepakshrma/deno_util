@@ -1,0 +1,11 @@
+name = "Deno Util"
+version = "0.0.1"
+
+contributors = [
+  "Deepak Vishwakarma<deepakshrma>"
+]
+
+[author]
+name = "Deepak Vishwakarma<deepakshrma>"
+
+[dependencies]

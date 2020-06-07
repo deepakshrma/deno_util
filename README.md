@@ -6,6 +6,42 @@ A util module for Deno language.
 
 ### logger.ts
 
+**Import:**
+
+```ts
+import { Logger } from "https://raw.githubusercontent.com/deepakshrma/deno_util/master/logger.ts";
+```
+
+**Create Instance:**
+
+```ts
+const options = {
+  level: 1,
+  format: "Logger: %s",
+  newLine: false,
+};
+const logger = new Logger(options);
+```
+
+**NOTE:** `options` is optional. It will merge with default value. The default value is
+
+`const initialOptions = { level: 0, format: "%s", newLine: true };`
+
+```ts
+// interfaces
+
+interface LoggerOptions {
+  level?: LogLevel;
+  format?: string;
+  newLine?: boolean;
+}
+
+type LogLevel = 0 | 1 | 2 | 3;
+
+```
+
+**Full Uses:**
+
 ```ts
 const logger = new Logger({ format: "Logger: %s" });
 logger.log("This is log message");
@@ -59,7 +95,17 @@ const { inverse, error: logError } = logger;
 inverse("This is inverse");
 
 logError("This is Error.");
-
 ```
 
 ![Output](assets/logger-sample.png?raw=true "Logger output")
+
+#### Example: Loading message
+
+```ts
+const delay = (ms = 5000) => new Promise((r) => setTimeout(r, ms));
+
+const logger = new Logger();
+const cancel = logger.loading("Loading..."); // start loader
+
+delay().then(cancel);
+```
