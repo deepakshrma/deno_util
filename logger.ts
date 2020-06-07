@@ -9,7 +9,7 @@ import { rgb8, bgRgb8 } from "https://deno.land/std/fmt/colors.ts";
 type LogLevel = 0 | 1 | 2 | 3;
 
 interface LoggerOptions {
-  level: LogLevel;
+  level?: LogLevel;
   format?: string;
   newLine?: boolean;
 }
@@ -57,9 +57,9 @@ class Logger {
    *
    * @param options : LoggerOptions
    */
-  constructor(options: LoggerOptions) {
+  constructor(options: LoggerOptions = initialOptions as LoggerOptions) {
     const { level, format, newLine } = { ...initialOptions, ...options };
-    this._level = level;
+    this._level = level as LogLevel;
     this._format = format;
     this._nl = newLine;
     this.log = this.log.bind(this);
@@ -164,6 +164,7 @@ class Logger {
       Logger.COLORS.GREY
     );
   }
+
   /**
    *
    * @param message : message to print
@@ -173,15 +174,26 @@ class Logger {
   raw(message: string, color: number = 15, nl: boolean = this._nl) {
     printf(rgb8(message, color) + (nl ? "\n" : ""));
   }
+
+  /**
+   * line: print line with or without message
+   *
+   * @param message? message to print inside line
+   */
+  line(message?: string) {
+    const line = "==========================================================";
+    const messages = message ? [line, `||\t${message}`, line] : [line];
+    this.raw(messages.join("\n"));
+  }
 }
 
 export { Logger, LogLevel, LoggerOptions };
 
-// /**
-//  * Example: How to use
-//  *
-//  *
-const logger = new Logger({ level: 0, format: "Logger: %s" });
+/**
+ * Example: How to use
+ *
+ *
+const logger = new Logger({ format: "Logger: %s" });
 logger.log("This is log message");
 logger.info("This is info message");
 
@@ -203,6 +215,12 @@ logger.warn("My name is %s and my salary is: %d", "Deepak", 2000);
 
 // inverse message
 logger.inverse("This is inverse!!");
+
+// print line
+logger.line();
+
+// print line with message
+logger.line("This will print inside line");
 
 // Set logger.level to not accepted value, // Error
 
@@ -227,4 +245,4 @@ const { inverse, error: logError } = logger;
 inverse("This is inverse");
 
 logError("This is Error.");
-//  */
+ */

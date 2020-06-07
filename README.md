@@ -7,10 +7,7 @@ A util module for Deno language.
 ### logger.ts
 
 ```ts
-
-import { Logger } from "https://raw.githubusercontent.com/deepakshrma/deno_util/master/logger.ts";
-
-const logger = new Logger({ level: 0, format: "Logger: %s" });
+const logger = new Logger({ format: "Logger: %s" });
 logger.log("This is log message");
 logger.info("This is info message");
 
@@ -32,6 +29,12 @@ logger.warn("My name is %s and my salary is: %d", "Deepak", 2000);
 
 // inverse message
 logger.inverse("This is inverse!!");
+
+// print line
+logger.line();
+
+// print line with message
+logger.line("This will print inside line");
 
 // Set logger.level to not accepted value, // Error
 
@@ -57,4 +60,6 @@ inverse("This is inverse");
 
 logError("This is Error.");
 
-``
+```
+
+![Output](assets/logger-sample.png?raw=true "Logger output")
