@@ -1,8 +1,10 @@
 # DENO UTIL
 
-A util module for Deno language.
+A util module for `Deno language`. Supporting logger and password prompt.
 
 ## How to use
+
+All examples can be found in [examples](/examples/)
 
 ### logger.ts
 
@@ -27,9 +29,9 @@ const logger = new Logger(options);
 
 `const initialOptions = { level: 0, format: "%s", newLine: true };`
 
-```ts
-// interfaces
+**Interfaces:**
 
+```ts
 interface LoggerOptions {
   level?: LogLevel;
   format?: string;
@@ -37,7 +39,6 @@ interface LoggerOptions {
 }
 
 type LogLevel = 0 | 1 | 2 | 3;
-
 ```
 
 **Full Uses:**
@@ -108,4 +109,61 @@ const logger = new Logger();
 const cancel = logger.loading("Loading..."); // start loader
 
 delay().then(cancel);
+```
+
+## prompt.ts
+
+`Prompts.password` API using `Deno.setRaw`, Which is unsupported till now `[deno v1.0.5]`. You have to use flag `--unstable` with run command.
+
+**Import:**
+
+```ts
+import {
+  Prompts,
+  PasswordPromptOptions,
+} from "https://raw.githubusercontent.com/deepakshrma/deno_util/master/prompts.ts";
+```
+
+**Interfaces:**
+
+```ts
+type Colors = "cyan" | "green" | "grey";
+
+interface PasswordPromptOptions {
+  ast?: string | false;
+  color?: Colors;
+}
+```
+
+**Full Uses:**
+
+```ts
+(async function () {
+  const passwd = await Prompts.password("Enter Password Here: ");
+  console.log(`You have enter password: ` + passwd);
+
+  // Custom Asterisk[-]
+  const passwd1 = await Prompts.password("Enter Password Here[-]: ", {
+    ast: "-",
+  });
+  console.log(`You have enter password: ` + passwd1);
+
+  // Disable Asterisk
+  const passwd2 = await Prompts.password("Enter Password Here[-]: ", {
+    ast: false,
+  });
+  console.log(`You have enter password: ` + passwd2);
+
+  // Custom color for Asterisk ast[-]
+  const passwd3 = await Prompts.password("Enter Password Here[-]: ", {
+    color: "cyan",
+  });
+  console.log(`You have enter password: ` + passwd2);
+})();
+```
+
+**How to run:**
+
+```bash
+deno run --unstable examples/prompt_demo.ts
 ```

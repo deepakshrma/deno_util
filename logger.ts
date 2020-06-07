@@ -161,7 +161,7 @@ class Logger {
     }
     this.raw(
       bgRgb8(sprintf(format, ...messages), Logger.COLORS.WHITE),
-      Logger.COLORS.GREY
+      Logger.COLORS.GREY,
     );
   }
 
@@ -196,7 +196,7 @@ class Logger {
     let index = 0;
     const id = setInterval(() => {
       Deno.stdout.write(
-        new TextEncoder().encode(`${message}${events[index]}\r`)
+        new TextEncoder().encode(`${message}${events[index]}\r`),
       );
       index += 1;
       if (index === events.length) index = 0;
