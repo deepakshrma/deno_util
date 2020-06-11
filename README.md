@@ -162,6 +162,19 @@ interface PasswordPromptOptions {
 })();
 ```
 
+**Take username and password:**
+
+```ts
+(async function () {
+  const username = await Prompts.input("username: ");
+  const passwd = await Prompts.password("password: ");
+  console.log({ username, passwd });
+})();
+```
+
+**Output:**
+![Output](assets/user_input.png?raw=true "Logger output")
+
 **How to run:**
 
 ```bash
