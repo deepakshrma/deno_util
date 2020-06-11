@@ -25,4 +25,10 @@ import { Prompts } from "../prompts.ts";
     color: "cyan",
   });
   console.log(`You have enter password: ` + passwd2);
+});
+
+(async function () {
+  const username = await Prompts.input("username: ");
+  const passwd = await Prompts.password("password: ", { color: "cyan" });
+  console.log({ username, passwd });
 })();

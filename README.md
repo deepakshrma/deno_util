@@ -98,7 +98,7 @@ inverse("This is inverse");
 logError("This is Error.");
 ```
 
-![Output](assets/logger-sample.png?raw=true "Logger output")
+![Output](assets/logger-sample.png "Logger output")
 
 #### Example: Loading message
 
@@ -161,6 +161,19 @@ interface PasswordPromptOptions {
   console.log(`You have enter password: ` + passwd2);
 })();
 ```
+
+**Take username and password:**
+
+```ts
+(async function () {
+  const username = await Prompts.input("username: ");
+  const passwd = await Prompts.password("password: ");
+  console.log({ username, passwd });
+})();
+```
+
+**Output:**
+![Output](assets/user_input.png "Logger output")
 
 **How to run:**
 
