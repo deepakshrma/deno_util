@@ -1,4 +1,4 @@
-import { Logger } from "https://raw.githubusercontent.com/deepakshrma/deno_util/master/logger.ts";
+import { Logger } from "../logger.ts";
 
 const logger = new Logger({ format: "Logger: %s" });
 logger.log("This is log message");

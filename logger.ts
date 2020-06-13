@@ -6,9 +6,19 @@ import { rgb8, bgRgb8 } from "https://deno.land/std/fmt/colors.ts";
 /**
  * LogLevel: Enum => 0 | 1 | 2 | 3
  */
-type LogLevel = 0 | 1 | 2 | 3;
+export type LogLevel = 0 | 1 | 2 | 3;
 
-interface LoggerOptions {
+/**
+ * level?: LogLevel;
+ * @default 0
+ *
+ * format?: string;
+ * @default "%s\n"
+ *
+ * newLine?: boolean;
+ * @default true
+ */
+export interface LoggerOptions {
   level?: LogLevel;
   format?: string;
   newLine?: boolean;
@@ -16,7 +26,7 @@ interface LoggerOptions {
 
 /**
  * Default option:
- * initialOptions = { level: 0, format: "%s\n" };
+ * initialOptions = { level: 0, format: "%s\n", newLine: true };
  */
 
 const initialOptions = { level: 0, format: "%s", newLine: true };
@@ -24,8 +34,11 @@ const initialOptions = { level: 0, format: "%s", newLine: true };
 /**
  * Logger
  *
+ * constructor(options: LoggerOptions)
+ * // Default value { level: 0, format: "%s\n" }
+ * 
  */
-class Logger {
+export class Logger {
   static COLORS = {
     BLACK: 0,
     MAROON: 1,
@@ -99,7 +112,7 @@ class Logger {
    * @param format override default format or use as message
    * @param messages accepts vargs any as printf/scanf
    */
-  log(format: string, ...messages: unknown[]) {
+  public log(format: string, ...messages: unknown[]) {
     if (this.level > 0) return;
     if (messages.length === 0) {
       messages = [format];
@@ -113,7 +126,7 @@ class Logger {
    * @param format override default format or use as message
    * @param messages accepts vargs any as printf/scanf
    */
-  info(format: string, ...messages: unknown[]) {
+  public info(format: string, ...messages: unknown[]) {
     if (this.level > 1) return;
     if (messages.length === 0) {
       messages = [format];
@@ -149,7 +162,7 @@ class Logger {
     this.raw(sprintf(format, ...messages), Logger.COLORS.RED); //
   }
   /**
-   * inverse:
+   * inverse: inverse the color
    *
    * @param format override default format or use as message
    * @param messages accepts vargs any as printf/scanf
@@ -166,6 +179,7 @@ class Logger {
   }
 
   /**
+   * raw: Print raw message
    *
    * @param message : message to print
    * @param color : color to print. {default 15}
@@ -207,77 +221,3 @@ class Logger {
     };
   }
 }
-
-export { Logger, LogLevel, LoggerOptions };
-
-/**
- * Example: How to use
- *
- *
-const logger = new Logger({ format: "Logger: %s" });
-logger.log("This is log message");
-logger.info("This is info message");
-
-logger.error("This is error message");
-
-/// Custom formatter
-logger.info("My name is %s and my salary is: %d", "Deepak", 2000);
-logger.warn("My name is %s and my salary is: %d", "Deepak", 2000);
-logger.error("My name is %s and my salary is: %d", "Deepak", 2000);
-
-// Change level
-logger.level = 2;
-
-// This will not print
-logger.info("My name is %s and my salary is: %d", "Deepak", 2000);
-
-// This will print
-logger.warn("My name is %s and my salary is: %d", "Deepak", 2000);
-
-// inverse message
-logger.inverse("This is inverse!!");
-
-// print line
-logger.line();
-
-// print line with message
-logger.line("This will print inside line");
-
-// Set logger.level to not accepted value, // Error
-
-// logger.level = 5; // Error
-
-// Change default format
-logger.level = 1;
-logger.format = "This is something new version: %s";
-
-logger.info("1.0.1");
-logger.warn("1.0.2");
-
-logger.raw("This is something new raw");
-
-// Overridden print
-logger.raw("This is something new version", 2, false);
-
-console.log("\n=======================\n");
-// Using De-Structure
-logger.format = "De-Structure: %s";
-const { inverse, error: logError } = logger;
-inverse("This is inverse");
-
-logError("This is Error.");
- */
-
-/**
- * Example: Loading message
- *
- */
-
-/*
-const delay = (ms = 5000) => new Promise((r) => setTimeout(r, ms));
-
-const logger = new Logger();
-const cancel = logger.loading("Loading..."); // start loader
-
-delay().then(cancel);
-*/
